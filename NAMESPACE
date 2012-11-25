@@ -1,0 +1,6 @@
+import("rJava")
+export("getString")
+export("concatString")
+export("getOne")
+export("getDoubleVector")
+export("getDoubleMatrix")

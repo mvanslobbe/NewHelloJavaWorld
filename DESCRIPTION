@@ -1,0 +1,10 @@
+Package: NewHelloJavaWorld
+Version: 0.0-1
+Date: 2012-11-25
+Title: New Hello Java World
+Author: Michiel van Slobbe
+Maintainer: Michiel van Slobbe <michiel.van.slobbe+github@gmail.com>
+Description: Building upon Tobias Verbekes 'Hello Java World', a dummy package to demonstrate how to interface to a jar file that resides inside an R package. More functions, tests.
+Depends: R (>= 2.7.0), rJava (>= 0.5-0)
+SystemRequirements: Java (>= 5.0), ant
+License: GPL-3

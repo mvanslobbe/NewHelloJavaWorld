@@ -1,0 +1,9 @@
+.PHONY: all
+$(SHLIB): mylibs
+all: $(SHLIB)
+clean:
+	ant clean
+
+mylibs:
+	ant
+

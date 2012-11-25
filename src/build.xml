@@ -1,0 +1,101 @@
+<project name="Hello Java World" basedir="." default="all" >
+	<property name="target.dir" value="../inst/java" />
+	<property name="javadoc.dir" value="../inst/javadoc" />
+	<property name="junit.reports.dir" value="../inst/reports" />
+	<property name="junit.results.dir" value="../inst/results" />
+	
+	<property name="JUNIT_JAR" value="lib/junit-4.7.jar" />
+  
+	<target name="clean">
+		<delete dir="bin" />
+		<delete dir="binjunit" />
+		<delete dir="${javadoc.dir}" />
+		<delete dir="${junit.reports.dir}" />
+		<delete dir="${junit.results.dir}" />
+	</target>	
+		
+	<target name="init" depends="clean" >
+		<mkdir dir="${junit.reports.dir}" />
+		<mkdir dir="${junit.results.dir}" />
+		<mkdir dir="bin" />
+		<mkdir dir="binjunit" />
+		<mkdir dir="${javadoc.dir}" />
+		
+	</target>
+	
+	<target name="compile" depends="init">
+		<javac srcdir="HelloJavaWorld/src" target="1.6" source="1.6" destdir="bin" />
+	</target>
+	
+	<target name="javadoc">
+		<javadoc access="public" destdir="${javadoc.dir}"
+      author="true" version="true" use="true" 
+			windowtitle="helloJavaWorld - Java API">
+        
+			 <fileset dir="HelloJavaWorld/src" defaultexcludes="yes">
+            <include name="**/*.java"/>
+        </fileset>
+					
+		</javadoc>
+	</target>
+	
+	<target name="build" depends="compile,javadoc">
+		<jar jarfile="${target.dir}/hellojavaworld.jar">
+			<fileset dir="bin" />
+		</jar>
+	</target>
+	
+	<path id="junit_classpath">
+		<pathelement location="${JUNIT_JAR}" />
+		<pathelement location="${target.dir}/hellojavaworld.jar" />
+	</path>
+	
+	<target name="compile-testcases" depends="build">
+		<javac srcdir="HelloJavaWorldTests/src" destdir="binjunit">
+			<classpath refid="junit_classpath" />
+		</javac>
+	</target>
+	
+	<target name="build-testcases" depends="compile-testcases">
+		<jar jarfile="${target.dir}/hellojavaworld-tests.jar">
+			<fileset dir="binjunit" />
+		</jar>
+	</target>
+	
+	<path id="junit_run_classpath">
+		<pathelement location="${JUNIT_JAR}" />
+		<pathelement location="${target.dir}/hellojavaworld.jar" />
+		<pathelement location="${target.dir}/hellojavaworld-tests.jar" />
+	</path>
+	
+	<target name="test" depends="build,build-testcases">
+		<junit fork="true" forkmode="once" haltonfailure="false"
+				haltonerror="false"
+        failureproperty="tests.failures" errorproperty="tests.errors"
+        includeantruntime="true" showoutput="true" printsummary="true">
+     
+     <classpath refid="junit_run_classpath" />
+     <formatter type="xml"/>
+
+     <batchtest fork="yes" todir="${junit.results.dir}">
+         <fileset dir="HelloJavaWorldTests/src">
+             <include name="**/*_Test.java"/>
+             <include name="**/*Tests.java"/>
+         </fileset>
+     </batchtest>
+ </junit>
+	</target>
+	
+	<target name="report" depends="test">
+	 <junitreport todir="${junit.reports.dir}">
+		  <fileset dir="${junit.results.dir}">
+		    <include name="TEST-*.xml"/>
+		  </fileset>
+		  <report format="frames" todir="${junit.reports.dir}/html"/>
+		</junitreport>
+	</target>
+	
+	<target name="all" depends="report" />
+	
+</project>
+
