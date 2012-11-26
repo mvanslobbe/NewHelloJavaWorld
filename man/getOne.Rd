@@ -1,0 +1,3 @@
+\name{getOne} 
+\alias{getOne}\title{Simple Integer function}\description{                 Returns the integer '1' in a very roundabout way            }            \usage{                 getOne( )            }           \arguments{           }           \references{ R core development.  "Writing R Extentions".  2007. }           \author{Michiel van Slobbe}           \keyword{clearnet}           \seealso{ ~ \code{getOne} }           \examples{               a = getOne();
+		print(a);}
